@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PJMG</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Main</string>
+
     <string name="login">Login</string>
     <string name="sign_up">Sign Up</string>
     <string name="submit">Submit</string>
@@ -8,4 +9,8 @@
     <string name="user">Account</string>
     <string name="password">Password</string>
     <string name="email">E-Mail</string>
+
+    <string name="menu_profile">Profile</string>
+    <string name="menu_logout">Logout</string>
+
 </resources>
