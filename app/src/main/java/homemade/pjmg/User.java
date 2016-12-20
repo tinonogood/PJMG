@@ -5,5 +5,5 @@ package homemade.pjmg;
  */
 
 public enum User {
-    ACCOUNT, PASSWORD, EMAIL, TASK
+    PJMG_DB, ACCOUNT, PASSWORD, EMAIL, TASK
 }

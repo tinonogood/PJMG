@@ -13,4 +13,7 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_logout">Logout</string>
 
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
 </resources>

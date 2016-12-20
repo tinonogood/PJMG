@@ -109,12 +109,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean checkLocalUsage(){
         /*  Use SharePreference to store user profile.
-        *   Hence, we check ACCOUNT value in user to known whether local data is exist or not
+        *   Hence, we check ACCOUNT value in user to know whether local data is exist or not
         * */
         boolean hasLocalFile;
 
-        SharedPreferences localLogin = getSharedPreferences("user", MODE_PRIVATE);
-        hasLocalFile = localLogin.getString("ACCOUNT", null) != null;
+        SharedPreferences localLogin = getSharedPreferences(User.PJMG_DB.toString(), MODE_PRIVATE);
+        hasLocalFile = localLogin.getString(User.ACCOUNT.toString(), null) != null;
 
         return hasLocalFile;
     }
@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
 
-                    SharedPreferences userData = getSharedPreferences("user", MODE_PRIVATE);
+                    SharedPreferences userData = getSharedPreferences(User.PJMG_DB.toString(), MODE_PRIVATE);
                     userData.edit()
                             .putString(User.ACCOUNT.toString(), mEdtSignUser.getText().toString())
                             .putString(User.PASSWORD.toString(), mEdtSignPasswd.getText().toString())
