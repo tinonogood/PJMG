@@ -20,8 +20,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String userAccount;
     private String emailAddress;
+    private ArrayList<HashMap<String,String>> projectList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +102,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initActionBar(){
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("主頁");
+        toolbar.setTitle("Main");
         toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white));
         toolbar.setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        toolbar.setSubtitleTextColor(ContextCompat.getColor(this,R.color.white));
 
         setSupportActionBar(toolbar);
 
@@ -138,6 +147,44 @@ public class MainActivity extends AppCompatActivity {
 
         mTxTAccount.setText(userAccount);
         mTxtEmail.setText(emailAddress);
+
+        /* Initialize list */
+        listView = (ListView) findViewById(R.id.drawer_list);
+
+        projectList = new ArrayList<HashMap<String,String>>();
+        HashMap<String,String> item = new HashMap<>();
+        item.put("icon",Integer.toString(android.R.drawable.ic_menu_add));
+        item.put("title","Add Project");
+        projectList.add(item);
+
+        for(int i=0;i<5;i++){
+            HashMap <String,String> project = new HashMap<>();
+            project.put("icon",Integer.toString(android.R.drawable.star_off));
+            project.put("title","Project " + i);
+            projectList.add(project);
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this,projectList,R.layout.listview_layout,new String[]{"icon","title"},new int[]{R.id.imgIcon,R.id.txtItem});
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i==0){
+
+                }
+                else{
+                    setTitle(projectList.get(i).get("title"));
+                }
+                drawerLayout.closeDrawers();
+            }
+
+            private void setTitle(String title){
+                getSupportActionBar().setTitle(title);
+            }
+
+        });
+
 
     }
 
