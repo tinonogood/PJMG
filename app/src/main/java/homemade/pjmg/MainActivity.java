@@ -4,7 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,16 +19,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    DrawerLayout drawerLayout;
-    TextView mTxTAccount;
-    TextView mTxtEmail;
-    ListView listView;
+    private Toolbar toolbar;
+
+    /* navigation drawer */
+    private DrawerLayout drawerLayout;
+    private TextView mTxTAccount;
+    private TextView mTxtEmail;
+    private ListView listView;
+
+    /* content tabs */
+    private TabLayout mTabs;
+    private ViewPager mViewPager;
 
     private String userAccount;
     private String emailAddress;
@@ -35,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         initActionBar();
         initDrawer();
+        initTabsView();
     }
 
     @Override
@@ -46,24 +59,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.menu_item_profile:
-                SharedPreferences userData = getSharedPreferences("user",MODE_PRIVATE);
-                String user = userData.getString(User.ACCOUNT.toString(),null);
-                String email = userData.getString(User.EMAIL.toString(),null);
-
-                AlertDialog.Builder profile = new AlertDialog.Builder(MainActivity.this);
-                profile.setTitle("User");
-                profile.setMessage(user + "\n" + email);
-                profile.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-                profile.show();
-
-                return true;
 
             case R.id.menu_item_logout:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
@@ -136,12 +131,57 @@ public class MainActivity extends AppCompatActivity {
         mTxTAccount = (TextView)findViewById(R.id.drawer_id);
         mTxtEmail = (TextView)findViewById(R.id.drawer_email);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(User.PJMG_DB.toString(),MODE_PRIVATE);
 
+        userAccount = sharedPreferences.getString(User.ACCOUNT.toString(),"");
+        emailAddress = sharedPreferences.getString(User.EMAIL.toString(),"");
 
+        mTxTAccount.setText(userAccount);
+        mTxtEmail.setText(emailAddress);
 
     }
 
-    private void initContentView(){
+    private void initTabsView(){
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager.setAdapter(new PagerAdapter() {
+            private final String [] TABSNAME = {"Item 1", "Item 2", "Item 3", "Item 4"};
+
+            @Override
+            public int getCount() {
+                return TABSNAME.length;
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return TABSNAME[position];
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                View view = getLayoutInflater().inflate(R.layout.viewerpager,container,false);
+                TextView title = (TextView) view.findViewById(R.id.item_title);
+                title.setText(String.valueOf(position+1));
+                container.addView(view);
+
+                return view;
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView((View) object);
+            }
+
+
+        });
+
+        mTabs = (TabLayout) findViewById(R.id.tabs);
+        mTabs.setupWithViewPager(mViewPager);
 
     }
+
 }
