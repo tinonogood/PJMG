@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="database_name">PJMGDB</string>
+    <string name="local_user_data">user</string>
+    <string name="task_table_name">task</string>
+</resources>
