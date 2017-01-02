@@ -4,8 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
@@ -27,8 +25,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -151,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         /* Initialize list */
         listView = (ListView) findViewById(R.id.drawer_list);
 
-        projectList = new ArrayList<HashMap<String,String>>();
+        projectList = new ArrayList<>();
         HashMap<String,String> item = new HashMap<>();
         item.put("icon",Integer.toString(android.R.drawable.ic_menu_add));
         item.put("title","Add Project");
@@ -164,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             projectList.add(project);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this,projectList,R.layout.listview_layout,new String[]{"icon","title"},new int[]{R.id.imgIcon,R.id.txtItem});
+        SimpleAdapter adapter = new SimpleAdapter(this,projectList,R.layout.drawer_listview,new String[]{"icon","title"},new int[]{R.id.imgIcon,R.id.txtItem});
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -191,11 +187,11 @@ public class MainActivity extends AppCompatActivity {
     private void initTabsView(){
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(new PagerAdapter() {
-            private final String [] TABSNAME = {"Item 1", "Item 2", "Item 3", "Item 4"};
+            private final String [] TABS_NAME = getResources().getStringArray(R.array.tabs_name);
 
             @Override
             public int getCount() {
-                return TABSNAME.length;
+                return TABS_NAME.length;
             }
 
             @Override
@@ -205,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public CharSequence getPageTitle(int position) {
-                return TABSNAME[position];
+                return TABS_NAME[position];
             }
 
             @Override

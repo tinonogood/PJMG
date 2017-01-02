@@ -16,4 +16,11 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
+    <string-array name="tabs_name">
+        <item>Most</item>
+        <item>More</item>
+        <item>Less</item>
+        <item>Least</item>
+    </string-array>
+
 </resources>
